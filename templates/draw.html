@@ -1,0 +1,98 @@
+<!doctype html>
+<!--Adapt from http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple -->
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>draw</h1>
+    <div>
+        <canvas id="canvas" width="280" height="280" style="border:2px solid black"></canvas>        
+    </div>
+    <button id="clear" style="margin-left:100px" >clear</button>
+
+    <script >
+        // draw image 
+        context = document.getElementById('canvas').getContext("2d");
+        var flag = true;
+        // Mouse Down Event
+        $('#canvas').mousedown(function(e){
+        var mouseX = e.pageX - this.offsetLeft;
+        var mouseY = e.pageY - this.offsetTop;        
+        paint = true;
+        if(flag){
+            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+            redraw();
+        }
+        
+        });
+        // Mouse Move Event
+        $('#canvas').mousemove(function(e){
+            if(paint){
+                addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+                redraw();
+            }
+        });
+        // Mouse Up Event
+        $('#canvas').mouseup(function(e){
+            paint = false;
+        });
+        // Mouse Leave Event
+        $('#canvas').mouseleave(function(e){
+            paint = false;
+        });
+
+        var clickX = new Array();
+        var clickY = new Array();
+        var clickDrag = new Array();
+        var paint;
+        // save the mouse click position
+        function addClick(x, y, dragging)
+        {
+            clickX.push(x);
+            clickY.push(y);
+            clickDrag.push(dragging);
+        }
+        // Each time the function is called the canvas is cleared and everything is redrawn.
+        function redraw(){
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+            
+            context.strokeStyle = "blue";
+            context.lineJoin = "round";
+            context.lineWidth = 30;
+                        
+            for(var i=0; i < clickX.length; i++) {		
+                context.beginPath();
+                if(clickDrag[i] && i){
+                context.moveTo(clickX[i-1], clickY[i-1]);
+                }else{
+                context.moveTo(clickX[i]-1, clickY[i]);
+                }
+                context.lineTo(clickX[i], clickY[i]);
+                context.closePath();
+                context.stroke();
+            }
+        }
+        
+        // clear the canvas
+        $("#clear").on('click', function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            clickX = new Array();
+            clickY = new Array();
+            clickDrag = new Array();
+        });
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>
