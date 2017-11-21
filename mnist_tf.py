@@ -49,15 +49,20 @@ correct_prediction = tf.equal(tf.argmax(y,1),tf.argmax(prediction,1)) # correct 
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) # true->1.0   false->0
 
 # create loop to train
-with tf.Session() as sess:
-    sess.run(init)
-    for eposh in range(1):
-        sess.run(tf.assign(LearningRate, 0.001*(0.95**eposh)))   # dynamic set LearningRate
-        for batch in range(n_batch):
-            batch_xs,batch_ys = mnist.train.next_batch(batch_size)
-            sess.run(train_step,{x:batch_xs, y:batch_ys})
+sess = tf.Session()
+sess.run(init)
+for eposh in range(1):
+    sess.run(tf.assign(LearningRate, 0.001*(0.95**eposh)))   # dynamic set LearningRate
+    for batch in range(n_batch):
+        batch_xs,batch_ys = mnist.train.next_batch(batch_size)
+        sess.run(train_step,{x:batch_xs, y:batch_ys})
 # calculate accuracy
-        LR = sess.run(LearningRate)
-        test_acc = sess.run(accuracy,{x:mnist.test.images, y:mnist.test.labels})
-        print("Iter " + str(eposh) + ",Testing Accuracy " + str(test_acc) + ", LearningRate " +str(LR))
+    LR = sess.run(LearningRate)
+    test_acc = sess.run(accuracy,{x:mnist.test.images, y:mnist.test.labels})
+print("Iter " + str(eposh) + ",Testing Accuracy " + str(test_acc) + ", LearningRate " +str(LR))
+
+def predict(in_data):
+    num = sess.run(prediction,{x:in_data})
+    n = tf.argmax(prediction,1)
+    return n
 

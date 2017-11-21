@@ -3,6 +3,7 @@
 import os
 from flask import Flask, request, redirect, url_for, render_template, json, jsonify
 from werkzeug.utils import secure_filename
+import mnist_tf
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -34,7 +35,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #     return render_template("index.html")
 
 
-
+# base64 used to decode the image data
 import base64
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -43,7 +44,7 @@ def index():
         # adapt from: http://blog.csdn.net/lxdcyh/article/details/4021476
         # and https://stackoverflow.com/questions/31410525/base64-uri-to-png-python
         image = request.values.get('imageBase64')
-        print(image)
+        #print(image)
         imgdata = base64.b64decode(image.split(",")[1])
         # here we define the img type: png
         # and the name of img is image.png 
@@ -53,10 +54,36 @@ def index():
             fh.write(imgdata)
         # get new 28*28 White/Black image
         reDoImage()
+        guess()
         return ''
         
 
     return render_template("index.html")
+
+import numpy as np
+def guess():
+    image = Image.open('uploads/image_28.jpg')
+    inputs = np.asarray(image)
+    inputs = inputs.reshape(1, 784)
+    print(inputs)
+
+
+# predict the image
+# def guess():
+#     with open("uploads/image_28.jpg", "rb") as imageFile:
+#         f = imageFile.read()
+#         b = np.array(f)
+#     # type(b): numpy.ndarray
+#     b = np.dtype(int)
+#     print(b)
+
+    # ins = ((255 - np.array(b, dtype=np.uint8)) / 255.0).reshape(1, 784)
+    # print(mnist_tf.predict(ins))
+
+
+    
+    
+
 
 # here use Pillow image library
 from PIL import Image
