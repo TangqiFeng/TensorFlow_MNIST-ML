@@ -28,7 +28,6 @@
             var canvas = document.getElementById('canvas');
             // Convert canvas image to URL format (base64)
             var dataURL = canvas.toDataURL();
-            img = JSON.stringify(dataURL);
             $.ajax({
               type: "POST",
               url: "http://localhost:5000/",

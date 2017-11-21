@@ -72,15 +72,17 @@ def reDoImage():
     resizeImage()
     
 def resizeImage():
+    bg = Image.open('uploads/image.jpg')
+    # Change the image size to 28*28
+    # Here I use NEAREST filter
+    # more details: https://www.daniweb.com/programming/software-development/code/216637/resize-an-image-python
+    new_image = bg.resize((28, 28),Image.NEAREST)
     # Change the colorful image to black/white image
     # adapt from: https://stackoverflow.com/questions/18777873/convert-rgb-to-black-or-white
-    bg = Image.open('uploads/image.jpg')
-    gray = bg.convert('L')
+    gray = new_image.convert('L')
     bw = gray.point(lambda x: 0 if x>128 else 255, '1')
-    # Then, change the image size to 28*28
-    new_image = bw.resize((28, 28))
     # save image.jpg
-    new_image.save('uploads/image_28.jpg')
+    bw.save('uploads/image_28.jpg')
 
 
 @app.route('/uploaded_file')
