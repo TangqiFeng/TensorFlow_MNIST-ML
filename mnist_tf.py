@@ -51,7 +51,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) # true->1.0  
 # create loop to train
 sess = tf.Session()
 sess.run(init)
-for eposh in range(1):
+for eposh in range(3):
     sess.run(tf.assign(LearningRate, 0.001*(0.95**eposh)))   # dynamic set LearningRate
     for batch in range(n_batch):
         batch_xs,batch_ys = mnist.train.next_batch(batch_size)
@@ -62,7 +62,6 @@ for eposh in range(1):
 print("Iter " + str(eposh) + ",Testing Accuracy " + str(test_acc) + ", LearningRate " +str(LR))
 
 def predict(in_data):
-    num = sess.run(prediction,{x:in_data})
-    n = tf.argmax(prediction,1)
+    n = sess.run(tf.argmax(prediction, 1),{x:in_data})
     return n
 
