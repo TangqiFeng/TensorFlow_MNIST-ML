@@ -2,28 +2,39 @@
 <!--Adapt from http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple -->
 <html lang="en">
   <head>
-    <title>Hello, world!</title>
+    <title></title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
   <body>
-    <div style="text-align: center;">
+    <div class="col-xs-5 form-group" style="text-align: center;">
         <h1>draw</h1>
         <div>
             <canvas id="canvas" width="280" height="280" style="border:2px solid black"></canvas>        
         </div>
-        <button id="clear" style="margin-left:100px" >clear</button>
-        <div id="createPNGButton">
-            <button type="button" onclick="saveImage()">save image</button>      
-        </div>
-        <label id="guessNum" style="font-size: 50px; color:blue"></label>
     </div>
-    
+    <div class="col-xs-2 form-group" style="text-align: center;">
+        <div style="margin-top: 80px">
+            <button id="clear" style="width:180px; height:40px">clear</button>
+        </div>
+        <div>
+            <button type="button" onclick="saveImage()" \
+            style="margin-top:30px; width:180px; height:40px">guess image number</button>
+        </div>
+    </div>
+    <div class="col-xs-5 form-group" style="text-align: center;">
+        <div style="margin-top: 30px">
+            <h1>The number you draw is:</h1>
+            <label id="guessNum" style="font-size: 50px; color:blue;"></label>
+        </div>
+    </div>
+
     <script type="text/javascript">
         function saveImage() {
             var canvas = document.getElementById('canvas');
@@ -43,14 +54,8 @@
                 console.log(data);
               }
             });  
-
-            
-            
         }
         
-    </script>
-
-    <script >
         // draw image 
         context = document.getElementById('canvas').getContext("2d");
         var flag = true;
@@ -123,6 +128,7 @@
             label.innerText="";
         });
     </script>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

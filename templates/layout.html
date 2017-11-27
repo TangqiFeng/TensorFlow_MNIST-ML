@@ -21,19 +21,11 @@
     {% endblock %}
   </head>
   <body>
-    <div class="row">
-        <!--Here use bootstrap to get two separate column, left side
-            and right side-->
-        <div class="col-xs-6 form-group">
-            {% block leftSideBody %}
-            <!--This area located left side-->
-            {% endblock %}
-        </div>
-        <div class="col-xs-6 form-group">
-            {% block rightSideBody %}
-            <!--This area located right side-->
-            {% endblock %}
-        </div>
+    <div>
+        
+        {% block mainBody %}
+        <!--This area located left side-->
+        {% endblock %}
         
     </div>
    
