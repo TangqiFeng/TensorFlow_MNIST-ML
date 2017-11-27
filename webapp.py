@@ -3,41 +3,13 @@
 import os
 from flask import Flask, request, redirect, url_for, render_template, json, jsonify, make_response
 from werkzeug.utils import secure_filename
+# import tensorflow scripts
 import mnist_tf
 
-UPLOAD_FOLDER = './uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# def allowed_file(filename):
-#     return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# @app.route('/', methods=['GET', 'POST'])
-# def upload_file():
-#     if request.method == 'POST':
-#         # check if the post request has the file part
-#         if 'file' not in request.files:
-#             flash('No file part')
-#             return redirect(request.url)
-#         file = request.files['file']
-#         # if user does not select file, browser also
-#         # submit a empty part without filename
-#         if file.filename == '':
-#             flash('No selected file')
-#             return redirect(request.url)
-#         if file and allowed_file(file.filename):
-#             filename = secure_filename(file.filename)
-#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#             return redirect(url_for('uploaded_file', filename=filename))
-#     return render_template("index.html")
 
 # base64 used to decode the image data
 import base64
-import time
-num = ''
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -55,7 +27,7 @@ def index():
             fh.write(imgdata)
         # get new 28*28 White/Black image
         reDoImage()
-        global num
+        # get predict result
         num = str(guess())
         print('num = '+num)
         # figure out exception 'No 'Access-Control-Allow-Origin' header'
@@ -67,37 +39,18 @@ def index():
         return response
     return render_template("index.html")
 
-
-
-
 import numpy as np
 def guess():
+    # use Pillow Library get image
     image = Image.open('uploads/image_28.jpg')
+    # convert img to numpy array
     inputs = np.asarray(image)
+    # reshape array to [1,784]
     inputs = inputs.reshape(1, 784)
     #print(inputs)
     num = mnist_tf.predict(inputs)
     print(num[0])
     return num[0]
-
-
-
-# predict the image
-# def guess():
-#     with open("uploads/image_28.jpg", "rb") as imageFile:
-#         f = imageFile.read()
-#         b = np.array(f)
-#     # type(b): numpy.ndarray
-#     b = np.dtype(int)
-#     print(b)
-
-    # ins = ((255 - np.array(b, dtype=np.uint8)) / 255.0).reshape(1, 784)
-    # print(mnist_tf.predict(ins))
-
-
-    
-    
-
 
 # here use Pillow image library
 from PIL import Image
@@ -127,7 +80,35 @@ def resizeImage():
     # save image.jpg
     new_image.save('uploads/image_28.jpg')
 
+# UPLOAD_FOLDER = './uploads'
+# ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-@app.route('/uploaded_file')
-def uploaded_file():
-    return 'Thanks for uploding'
+# app = Flask(__name__)
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# def allowed_file(filename):
+#     return '.' in filename and \
+#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# @app.route('/', methods=['GET', 'POST'])
+# def upload_file():
+#     if request.method == 'POST':
+#         # check if the post request has the file part
+#         if 'file' not in request.files:
+#             flash('No file part')
+#             return redirect(request.url)
+#         file = request.files['file']
+#         # if user does not select file, browser also
+#         # submit a empty part without filename
+#         if file.filename == '':
+#             flash('No selected file')
+#             return redirect(request.url)
+#         if file and allowed_file(file.filename):
+#             filename = secure_filename(file.filename)
+#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#             return redirect(url_for('uploaded_file', filename=filename))
+#     return render_template("index.html")
+
+# @app.route('/uploaded_file')
+# def uploaded_file():
+#     return 'Thanks for uploding'
