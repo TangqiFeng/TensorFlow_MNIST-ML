@@ -21,6 +21,7 @@
         <div id="createPNGButton">
             <button type="button" onclick="saveImage()">save image</button>      
         </div>
+        <label id="guessNum" style="font-size: 50px; color:blue"></label>
     </div>
     
     <script type="text/javascript">
@@ -28,16 +29,25 @@
             var canvas = document.getElementById('canvas');
             // Convert canvas image to URL format (base64)
             var dataURL = canvas.toDataURL();
+            
             $.ajax({
               type: "POST",
               url: "http://localhost:5000/",
               data:{
                 imageBase64: dataURL
+              },
+              dataType:"json",
+              success: (data) => {
+                var label=document.getElementById("guessNum"); 
+                label.innerText=data;
+                console.log(data);
               }
-            }).done(function() {
-              console.log('sent');
-            });
+            });  
+
+            
+            
         }
+        
     </script>
 
     <script >
@@ -88,7 +98,7 @@
             
             context.strokeStyle = "blue";
             context.lineJoin = "round";
-            context.lineWidth = 20;
+            context.lineWidth = 30;
                         
             for(var i=0; i < clickX.length; i++) {		
                 context.beginPath();
@@ -109,6 +119,8 @@
             clickX = new Array();
             clickY = new Array();
             clickDrag = new Array();
+            var label=document.getElementById("guessNum"); 
+            label.innerText="";
         });
     </script>
     <!-- Optional JavaScript -->

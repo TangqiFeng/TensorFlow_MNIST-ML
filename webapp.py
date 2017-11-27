@@ -1,7 +1,7 @@
 # upload images. adapted from:
 # http://flask.pocoo.org/docs/0.12/patterns/fileuploads/
 import os
-from flask import Flask, request, redirect, url_for, render_template, json, jsonify
+from flask import Flask, request, redirect, url_for, render_template, json, jsonify, make_response
 from werkzeug.utils import secure_filename
 import mnist_tf
 
@@ -34,9 +34,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #             return redirect(url_for('uploaded_file', filename=filename))
 #     return render_template("index.html")
 
-
 # base64 used to decode the image data
 import base64
+import time
+num = ''
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -54,11 +55,20 @@ def index():
             fh.write(imgdata)
         # get new 28*28 White/Black image
         reDoImage()
-        guess()
-        return ''
-        
-
+        global num
+        num = str(guess())
+        print('num = '+num)
+        # figure out exception 'No 'Access-Control-Allow-Origin' header'
+        # adapt from: http://blog.csdn.net/kevin_qq/article/details/51761654
+        response = make_response(num)  
+        response.headers['Access-Control-Allow-Origin'] = '*'  
+        response.headers['Access-Control-Allow-Methods'] = 'POST'  
+        response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type' 
+        return response
     return render_template("index.html")
+
+
+
 
 import numpy as np
 def guess():
@@ -66,7 +76,10 @@ def guess():
     inputs = np.asarray(image)
     inputs = inputs.reshape(1, 784)
     #print(inputs)
-    print(mnist_tf.predict(inputs))
+    num = mnist_tf.predict(inputs)
+    print(num[0])
+    return num[0]
+
 
 
 # predict the image
@@ -88,6 +101,7 @@ def guess():
 
 # here use Pillow image library
 from PIL import Image
+import PIL.ImageOps
 def reDoImage():
     # first, read 'image.png' from dolder uploads
     image = Image.open('uploads/image.png')
@@ -98,13 +112,14 @@ def reDoImage():
     bg.paste(image,image)
     bg.save('uploads/image.jpg')
     resizeImage()
-    
+
 def resizeImage():
     bg = Image.open('uploads/image.jpg')
     # Change the colorful image to black/white image
     # adapt from: https://stackoverflow.com/questions/18777873/convert-rgb-to-black-or-white
     gray = bg.convert('L')
-    bw = gray.point(lambda x: 0 if x>128 else 255, '1')
+    #bw = gray.point(lambda x: 0 if x>128 else 255, '1')
+    bw = PIL.ImageOps.invert(gray)
     # Change the image size to 28*28
     # Here I use NEAREST filter
     # more details: https://www.daniweb.com/programming/software-development/code/216637/resize-an-image-python
