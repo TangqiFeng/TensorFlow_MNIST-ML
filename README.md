@@ -16,7 +16,7 @@ This repository uses [tensorflow](https://www.tensorflow.org/) and [flask](http:
 
 ## How this repository organized
 
-This repository inclouds:
+This repository includes:
 * Three attempts for tensorflow with mnist data, using jupyter notebook:
   * file [mnist_data_identify_simple.ipynb](https://github.com/TangqiFeng/machine-learning/blob/master/mnist_data_identify_simple.ipynb) simple TensorFlow with mnist data.
   * file [mnist_data_identify_01.ipynb](https://github.com/TangqiFeng/machine-learning/blob/master/mnist_data_identify_01.ipynb) add middle layer tenser and dropout method to improve accuracy
@@ -45,14 +45,11 @@ and integrate systems more effectively)
 
 ## How to run?
 After you download the repository
-* run jupyter notrbook :
+* run jupyter notebook :
   Go to the repository folder, open the command-line interpreter or terminal(mac)
   * type:
     ``` $ jupyter notebook ```
     then, click *mnist_data_identify_simple.ipynb* / *mnist_data_identify_01.ipynb* / *mnist_data_identify_02.ipynb* on browser which opened automatically
-  * type: 
-    ``` $ python3 iris_nn.py ```
-    then, you can get the results
 * run the Flask app
   Go to the repository folder, open the command-line interpreter or terminal(mac)
   * type:
