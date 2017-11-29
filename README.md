@@ -7,10 +7,10 @@ This is [4th year emerging technologies project](https://github.com/TangqiFeng/m
 > Module: Emerging Technologies / 4th Year  
 > Lecturer: Dr [Ian McLoughlin](https://ianmcloughlin.github.io/)
 
-In this project you will create a web application in Python to recognise digits in images.
-Users will be able to visit the web application through their browser, submit (or draw) an image containing a single digit, and the web application will respond with the digit contained in the image.
-You should use [tensorflow](https://www.tensorflow.org/) and [flask](http://flask.pocoo.org/) to do this.
-Note that accuracy of approximately 99% is considered excellent in recognising digits, so it is okay if your algorithm gets it wrong sometimes.
+In this project, a web application in Python is created to recognise digits in images.
+Users will be able to visit the web application through their browser, draw an image containing a single digit, and the web application will respond with the digit contained in the image.
+This repository uses [tensorflow](https://www.tensorflow.org/) and [flask](http://flask.pocoo.org/).
+
 
 ![guess](https://user-images.githubusercontent.com/22374434/33279432-6c0fdcd6-d396-11e7-8d04-4fbdd118ed07.gif)
 
@@ -40,24 +40,32 @@ and integrate systems more effectively)
 * [Jupyter](http://jupyter.org/) (an interactive computing environment that enables users to author notebook documents)
 * [Numpy](http://www.numpy.org/) (the fundamental package for scientific computing with Python.)
 * [Tensorflow](https://www.tensorflow.org/) (An open-source software library for Machine Intelligence)
-* [Keras](https://keras.io/) (a high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK, or Theano.)
+* [Jinja2](http://jinja.pocoo.org/docs/2.10/) (a modern and designer-friendly templating language for Python)
+* [Pillow](https://pillow.readthedocs.io/en/4.3.x/) (the Python Imaging Library by Fredrik Lundh and Contributors.)
 
 ## How to run?
 After you download the repository
-
-Go to the repository folder, open the command-line interpreter or terminal(mac)
-* type:
-  ``` $ jupyter notebook ```
-  then, click *Iris_data_set_TensorFlow.ipynb* on browser which opened automatically
-* type: 
-  ``` $ python3 iris_nn.py ```
-  then, you can get the results
+* run jupyter notrbook :
+  Go to the repository folder, open the command-line interpreter or terminal(mac)
+  * type:
+    ``` $ jupyter notebook ```
+    then, click *mnist_data_identify_simple.ipynb* / *mnist_data_identify_01.ipynb* / *mnist_data_identify_02.ipynb* on browser which opened automatically
+  * type: 
+    ``` $ python3 iris_nn.py ```
+    then, you can get the results
+* run the Flask app
+  Go to the repository folder, open the command-line interpreter or terminal(mac)
+  * type:
+    ``` $ FLASK_APP=webapp.py flask run ```
+    then, open browser to url: 127.0.0.1:5000
  
 **Before you run the project, mack sure all needed components are installed:**
 * [Python3](https://anaconda.org/anaconda/python)
-* Jupyter, Numpy, Tensorflow and Keras use pip install:
+* Jupyter, Numpy, Tensorflow,Pillow and Jinja2 use pip install:
 
 ```bash
-$ pip install Jupyter / Tensorflow / numpy / Keras 
+$ pip install Jupyter / Tensorflow / Pillow / numpy / Jinja2 
 ```
 ## REFERENCES
+* [YouTube tutorial](https://www.youtube.com/watch?v=eAtGqz8ytOI&list=PLjSwXXbVlK6IHzhLOMpwHHLjYmINRstrk) (Chinese)
+* [MNIST For ML Beginners](https://www.tensorflow.org/get_started/mnist/beginners)
